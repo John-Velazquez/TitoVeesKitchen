@@ -6,7 +6,8 @@ Foundation scaffold and recipe-manager prototype for a personal cooking website:
 - Mobile-responsive homepage and navigation
 - Signup, login, signout, password reset UI with Supabase Auth
 - Member dashboard and role-aware admin dashboard shell
-- Working recipe archive prototype and an owner-only recipe manager on this feature branch (requires Supabase setup)\n- Future-feature placeholders for My Kitchen and Wanna Meal Prep?
+- Working recipe archive prototype and an owner-only recipe manager on this feature branch (requires Supabase setup)
+- Future-feature placeholders for My Kitchen and Wanna Meal Prep?
 - **No AI integration or paid services required for initial development**
 
 ## Run locally (Windows PowerShell)
@@ -25,5 +26,8 @@ The admin UI performs a client-side role check for navigation, while recipe data
 ## Branding
 The original onion/garlic artwork is supplied separately in the project Brand.zip. This commit uses a restrained placeholder design rather than recreating those characters. Approved PNG assets should be added to `public/brand/` before visual signoff; no redesign is authorized by this starter.
 
-## Owner Recipe Manager\nThe feature branch includes a recipe editor at `/admin/recipes`, plus SQL at `supabase/recipes.sql`. Complete setup steps and security checks: [Recipe Manager Setup](docs/RECIPE_MANAGER_SETUP.md). Recipe changes are stored in Supabase (not GitHub JSON); import of the reconstructed 50-record archive must be initiated from the admin UI. The actual application build and live authentication have not been tested.\n\n## Next milestone
+## Owner Recipe Manager
+The feature branch includes a recipe editor at `/admin/recipes`, plus SQL at `supabase/recipes.sql`. Complete setup steps and security checks: [Recipe Manager Setup](docs/RECIPE_MANAGER_SETUP.md). Recipe changes are stored in Supabase (not GitHub JSON); import of the reconstructed 50-record archive must be initiated from the admin UI. The actual application build and live authentication have not been tested.
+
+## Next milestone
 Confirm local build, connect and test real authentication, test mobile responsiveness, and only then start recipe features.
