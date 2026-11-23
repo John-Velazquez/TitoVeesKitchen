@@ -31,7 +31,10 @@ export default function RecipeManager(){
   const db=getSupabase();if(!db)return;
   const {data,error}=await db.from("recipes").select("*").order("title",{ascending:true});
   if(error){setNotice("Could not load recipes: "+error.message);return;}
-  setRows((data??[]) as RecipeRecord[]);
+  const notesResult=await db.from("recipe_editor_notes").select("recipe_id,notes");
+  if(notesResult.error){setNotice("Could not load private notes: "+notesResult.error.message);return;}
+  const notesMap=new Map((notesResult.data??[]).map(n=>[n.recipe_id,n.notes]));
+  setRows((data??[]).map(row=>({...row,source_notes:notesMap.get(row.id)??""})) as RecipeRecord[]);
  },[]);
  useEffect(()=>{
   let active=true;const db=getSupabase();
@@ -67,12 +70,16 @@ export default function RecipeManager(){
     if(uploaded.error)throw uploaded.error;
     photoUrl=db.storage.from("recipe-photos").getPublicUrl(objectName).data.publicUrl;
    }
-   const payload={...clean,photo_url:photoUrl};
+   const {source_notes,...publicFields}=clean;
+   const payload={...publicFields,photo_url:photoUrl};
    const result=selected
     ? await db.from("recipes").update(payload).eq("id",selected).select("*").single()
     : await db.from("recipes").insert(payload).select("*").single();
    if(result.error)throw result.error;
-   const saved=result.data as RecipeRecord;setSelected(saved.id);setForm(payload);
+   const saved=result.data as RecipeRecord;
+   const noteResult=await db.from("recipe_editor_notes").upsert({recipe_id:saved.id,notes:source_notes},{onConflict:"recipe_id"});
+   if(noteResult.error)throw noteResult.error;
+   setSelected(saved.id);setForm({...payload,source_notes});
    setNotice(nextStatus==="published"?"Recipe published successfully.":"Draft saved successfully.");
    setPhoto(null);await load();
   }catch(e){setNotice("Save failed: "+(e instanceof Error?e.message:String(e)));}
@@ -94,11 +101,23 @@ export default function RecipeManager(){
    const missing=archive.recipes.filter(x=>!present.has(x.slug));
    let imported=0;
    for(let i=0;i<missing.length;i+=20){
-    const batch=missing.slice(i,i+20).map(x=>({...emptyRecipe,slug:x.slug,title:x.title,category:x.category,
-     source_notes:["Source: "+x.source,"Evidence: "+x.evidence,"Prior status: "+x.status,x.notes].filter(Boolean).join("\n"),
-     status:"draft" as const}));
-    const result=await db.from("recipes").upsert(batch,{onConflict:"slug",ignoreDuplicates:true});
-    if(result.error)throw result.error;imported+=batch.length;
+    const batch=missing.slice(i,i+20);
+    const publicBatch=batch.map(x=>{const {source_notes,...defaults}=emptyRecipe;void source_notes;
+      return {...defaults,slug:x.slug,title:x.title,category:x.category,status:"draft" as const};});
+    const result=await db.from("recipes").upsert(publicBatch,{onConflict:"slug",ignoreDuplicates:true});
+    if(result.error)throw result.error;
+    const fetched=await db.from("recipes").select("id,slug").in("slug",batch.map(x=>x.slug));
+    if(fetched.error)throw fetched.error;
+    const bySlug=new Map((fetched.data??[]).map(row=>[row.slug,row.id]));
+    const noteBatch=batch.filter(x=>bySlug.has(x.slug)).map(x=>({
+      recipe_id:bySlug.get(x.slug)!,
+      notes:["Source: "+x.source,"Evidence: "+x.evidence,"Prior status: "+x.status,x.notes].filter(Boolean).join("\\n")
+    }));
+    if(noteBatch.length){
+      const noteResult=await db.from("recipe_editor_notes").upsert(noteBatch,{onConflict:"recipe_id",ignoreDuplicates:true});
+      if(noteResult.error)throw noteResult.error;
+    }
+    imported+=batch.length;
    }
    setNotice("Import finished. Up to "+imported+" missing records added as drafts; existing records untouched.");
    await load();setShowArchive(false);
