@@ -33,8 +33,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .actions{display:flex;flex-wrap:wrap;align-items:center;gap:.9rem;margin-top:2.1rem}
 .button,button:not(.nav-signout):not(.textbutton):not(.manager-recipe){display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border:1px solid var(--copper);background:var(--copper);color:#fffaf1;border-radius:7px;padding:.82rem 1.3rem;font:inherit;font-weight:700;cursor:pointer;transition:background .15s,transform .15s,border-color .15s}
 .button:hover,button:not(.nav-signout):not(.textbutton):not(.manager-recipe):hover{background:#bd7543}
-.button.secondary{background:transparent;color:#f4d6a7;border-color:#d1a06a}
-.button.secondary:hover{background:#f4d6a716}
+.button.secondary{background:transparent;color:var(--copper);border-color:#c98e60}
+.button.secondary:hover{background:#e5c19d29}
+.hero .button.secondary{color:#f4d6a7;border-color:#d1a06a}
+.hero .button.secondary:hover{background:#f4d6a716}
 button:disabled{opacity:.55;cursor:wait}
 .hero-signature{margin-top:2.5rem;letter-spacing:.15em;font-size:.7rem;font-weight:700;color:#d2b58a}
 .hero-signature span{padding:0 .4rem;color:var(--gold)}
@@ -117,3 +119,5 @@ input{width:100%;padding:.75rem;border-radius:6px;border:1px solid #bba88e;backg
  .shell{margin:2.8rem auto}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+.manager-buttons .manager-danger{background:#8e3939!important;border-color:#8e3939!important;color:#fff!important}
