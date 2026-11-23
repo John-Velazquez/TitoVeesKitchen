@@ -1,0 +1,15 @@
+import Link from "next/link";
+import "./recipes.css";
+const developing=[
+ {title:"Philly Cheesesteak Egg Rolls",tag:"Appetizers",description:"Homemade egg rolls; finished-product photographs captured. Final quantities and method to be recorded."},
+ {title:"Wok-Glazed Broccoli",tag:"Vegetables & sides",description:"Broccoli finished in a reduced savory sauce with mushroom, soy, and a final light Adobo seasoning."},
+ {title:"Slow-Roasted Spatchcock Chicken",tag:"Main dishes",description:"Marinated chicken roasted over potatoes, covered for tenderness and finished for color."},
+ {title:"Homemade Brioche Buns",tag:"Breads",description:"A four-bun test batch with hydration and texture notes for the next iteration."},
+ {title:"Sofrito",tag:"Foundations",description:"Puerto Rican-style aromatic base. Ingredient ratios and final method pending verification."},
+ {title:"Peach Cobbler",tag:"Desserts",description:"Fresh-peach-first approach, with frozen peaches as the backup. Final cooking record to be completed."},
+ {title:"Coquito",tag:"Drinks",description:"Family-sized holiday recipe with measured ingredients. Yield and safety notes need final validation."},
+ {title:"Carne Asada Marinade",tag:"Marinades",description:"Citrus, Worcestershire, aromatics, peppercorn blend and browning sauce experiment."}
+];
+export default function Recipes(){
+ return <div className="recipe-site recipe-shell"><p className="recipe-crumb"><Link href="/">Home</Link> / Recipe collection</p><p className="recipe-kicker">The official recipe collection</p><h1 className="recipe-title">From Tito Vee’s Kitchen.</h1><p className="recipe-subtitle">Big flavor, intentional technique, and the details that make a recipe repeatable. Every finished entry documents what actually happened in the kitchen.</p><div className="recipe-divider"/><section className="recipe-feature"><span>Featured • Recipe recorded</span><strong>Herb-Infused Garlic Confit Ghee</strong><p>Golden, aromatic ghee with mellow garlic, toasted onion, herbs, and warm spice.</p><Link className="button" href="/recipes/herb-infused-garlic-confit-ghee" style={{alignSelf:"flex-start"}}>Read the recipe</Link></section><div className="recipe-divider"/><p className="recipe-kicker">From our cooking journal</p><h2 style={{fontSize:"2.1rem",margin:".4rem 0"}}>Recipes in development</h2><p className="recipe-subtitle">These dishes are part of the project history, but this catalog won’t invent missing ingredients or method details. They become published recipes when their records are verified.</p><div className="recipe-card-grid">{developing.map(item=><article key={item.title} className="recipe-catalog-card"><span className="recipe-chip">{item.tag} • Draft</span><h2>{item.title}</h2><p>{item.description}</p><span style={{fontSize:".8rem",color:"#74665a"}}>Documentation in progress</span></article>)}</div></div>
+}
