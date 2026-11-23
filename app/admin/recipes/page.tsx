@@ -111,7 +111,7 @@ export default function RecipeManager(){
     const bySlug=new Map((fetched.data??[]).map(row=>[row.slug,row.id]));
     const noteBatch=batch.filter(x=>bySlug.has(x.slug)).map(x=>({
       recipe_id:bySlug.get(x.slug)!,
-      notes:["Source: "+x.source,"Evidence: "+x.evidence,"Prior status: "+x.status,x.notes].filter(Boolean).join("\\n")
+      notes:["Source: "+x.source,"Evidence: "+x.evidence,"Prior status: "+x.status,x.notes].filter(Boolean).join("\n")
     }));
     if(noteBatch.length){
       const noteResult=await db.from("recipe_editor_notes").upsert(noteBatch,{onConflict:"recipe_id",ignoreDuplicates:true});
