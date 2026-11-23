@@ -7,14 +7,40 @@ import "@/app/recipes/recipes.css";
 
 export function PublishedOverride({slug,fallback=null}:{slug:string;fallback?:ReactNode}){
  const [recipe,setRecipe]=useState<RecipeRecord|null>(null);
+ const [canEdit,setCanEdit]=useState(false);
+ const [loading,setLoading]=useState(true);
+ const [loadError,setLoadError]=useState("");
  useEffect(()=>{
-  let active=true;const db=getSupabase();
-  if(!db)return;
-  db.from("recipes").select("*").eq("slug",slug).eq("status","published").maybeSingle()
-   .then(({data})=>{if(active&&data)setRecipe(data as RecipeRecord);});
-  return()=>{active=false};
+  let active=true;let request=0;
+  const db=getSupabase();
+  if(!db){setLoading(false);return;}
+  async function refresh(){
+   const current=++request;
+   setLoading(true);setLoadError("");
+   try{
+    const {data:identity}=await db!.auth.getUser();
+    if(!active||current!==request)return;
+    let admin=false;
+    if(identity.user){
+     const {data:profile,error:profileError}=await db!.from("profiles").select("role").eq("id",identity.user.id).maybeSingle();
+     if(profileError)throw profileError;
+     admin=profile?.role==="admin";
+    }
+    // Public RLS exposes published recipes; admin RLS permits its own draft previews.
+    let query=db!.from("recipes").select("*").eq("slug",slug);
+    if(!admin)query=query.eq("status","published");
+    const {data,error}=await query.maybeSingle();
+    if(error)throw error;
+    if(active&&current===request){setRecipe(data as RecipeRecord|null);setCanEdit(admin);setLoading(false);}
+   }catch(e){if(active&&current===request){setLoadError(e instanceof Error?e.message:String(e));setLoading(false);}}
+  }
+  void refresh();
+  const {data:{subscription}}=db.auth.onAuthStateChange(()=>{void refresh();});
+  return()=>{active=false;request++;subscription.unsubscribe();};
  },[slug]);
- if(!recipe)return <>{fallback??<div className="recipe-site recipe-shell"><p className="recipe-crumb"><Link href="/recipes">Recipes</Link></p><h1>Recipe unavailable</h1><p>This recipe has not been published.</p></div>}</>;
+ if(loading)return <div className="recipe-site recipe-shell"><p role="status">Loading recipe…</p></div>;
+ if(loadError)return <div className="recipe-site recipe-shell"><p role="alert">Unable to load recipe: {loadError}</p><Link href="/recipes">Back to recipes</Link></div>;
+ if(!recipe)return <>{fallback??<div className="recipe-site recipe-shell"><p className="recipe-crumb"><Link href="/recipes">Recipes</Link></p><h1>Recipe not published</h1><p>This recipe is not available to visitors yet. Sign in with an owner account to preview drafts.</p></div>}</>;
  const blocks:[string,string][]=[
   ["Equipment",recipe.equipment],["Ingredients",recipe.ingredients],["The method",recipe.instructions],
   ["Substitutions",recipe.substitutions],["Storage & reheating",recipe.storage_notes],
@@ -22,6 +48,7 @@ export function PublishedOverride({slug,fallback=null}:{slug:string;fallback?:Re
  ];
  return <article className="recipe-site recipe-shell">
   <p className="recipe-crumb"><Link href="/">Home</Link> / <Link href="/recipes">Recipes</Link> / {recipe.title}</p>
+  {recipe.status==="draft"&&canEdit&&<div className="recipe-draft-banner" role="status"><strong>PRIVATE OWNER PREVIEW — NOT PUBLISHED</strong><p>This is your saved draft from the recipe database. It may contain unverified quantities, incomplete steps, or working notes. Visitors cannot see this draft.</p><Link href="/admin/recipes">Edit in Recipe Manager</Link></div>}
   <p className="recipe-kicker">Tito Vee's Kitchen / {recipe.category}</p>
   <h1 className="recipe-title">{recipe.title}</h1>
   {recipe.summary&&<p className="recipe-subtitle">{recipe.summary}</p>}
