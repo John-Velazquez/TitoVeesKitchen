@@ -55,7 +55,7 @@ export default function RecipeManager(){
  const hasRecipeContent=(r:Pick<RecipeInput,"ingredients"|"instructions">)=>Boolean(r.ingredients.trim()&&r.instructions.trim());
  const recoveredCount=rows.filter(r=>r.ingredients.trim()||r.instructions.trim()).length;
  const selectedRow=rows.find(r=>r.id===selected);
- const previewAvailable=form.slug==="herb-infused-garlic-confit-ghee" || form.status==="published";
+ const previewAvailable=Boolean(selected && form.slug);
  function edit(row:RecipeRecord){setSelected(row.id);const {id:unused,created_at,updated_at,...values}=row;void unused;void created_at;void updated_at;setForm(values);setPhoto(null);setNotice("");}
  function reset(){setSelected(null);setForm({...emptyRecipe});setPhoto(null);setNotice("");}
  function set<K extends keyof RecipeInput>(key:K,value:RecipeInput[K]){setForm(f=>({...f,[key]:value}));}
@@ -138,7 +138,7 @@ export default function RecipeManager(){
  <section className="manager-editor"><div className="manager-editor-top"><h2>{selected?"Edit recipe":"New recipe"}</h2><span className={"manager-state "+form.status}>{form.status.toUpperCase()}</span></div>
  {selected&&<div className="manager-content-check" role="status">
   {hasRecipeContent(form)?<p><strong>Recovered ingredients and method.</strong> Review for missing amounts, versions and test status before publishing. Click <strong>Save draft</strong> to retain private edits, or <strong>Publish</strong> to show them publicly.</p>:(form.ingredients.trim()||form.instructions.trim())?<p><strong>Partial recovery.</strong> Some original content is available in this draft; missing quantities or methods were not invented. Please review private source notes before completing it.</p>:<p><strong>Archive record — title and source notes only.</strong> The original recipe details were not recovered. No measurements or instructions have been invented; consult the private source notes below.</p>}
-  {previewAvailable&&<p><Link href={`/recipes/${form.slug}`} target="_blank" rel="noopener noreferrer">View current public recipe ↗</Link>{form.status==="draft"&&form.slug==="herb-infused-garlic-confit-ghee"&&" · This ghee page currently displays the original static recipe. Publishing your saved draft will replace that version."}</p>}
+  {previewAvailable&&<p><Link href={`/recipes/${form.slug}`} target="_blank" rel="noopener noreferrer">{form.status==="draft"?"Preview saved draft ↗":"View published recipe ↗"}</Link>{form.status==="draft"&&" · Your admin session can view this private preview. Visitors cannot."}</p>}
   {selectedRow?.updated_at&&<small>Last database update: {new Date(selectedRow.updated_at).toLocaleString()}</small>}
  </div>}
  <div className="manager-fields">{fields.map(({key,label,long})=><label key={key} className="field">{label}{key==="category"?<><select value={form.category} onChange={e=>set("category",e.target.value)}>{[...new Set([...categories,form.category])].map(x=><option key={x} value={x}>{x}</option>)}</select></>:long?<textarea rows={key==="instructions"||key==="ingredients"?7:3} value={String(form[key]??"")} onChange={e=>set(key,e.target.value)} />:<input value={String(form[key]??"")} onChange={e=>set(key,e.target.value)} onBlur={()=>{if(key==="slug")set("slug",toSlug(form.slug));if(key==="title"&&!form.slug)set("slug",toSlug(form.title));}} />}</label>)}
