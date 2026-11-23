@@ -29,7 +29,6 @@ create table if not exists public.recipes (
   macros text not null default '',
   photo_url text not null default '',
   video_url text not null default '',
-  source_notes text not null default '',
   status text not null default 'draft' check (status in ('draft','published')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
@@ -78,3 +77,23 @@ create policy "Kitchen admin removes recipe photos" on storage.objects
 for delete to authenticated
 using (bucket_id = 'recipe-photos' and (select public.is_kitchen_admin()));
 -- Existing images are intentionally not overwritten. Use a unique file name per upload.
+
+-- Private editorial provenance is stored separately so public API SELECTs cannot expose it.
+create table if not exists public.recipe_editor_notes (
+ recipe_id uuid primary key references public.recipes(id) on delete cascade,
+ notes text not null default ''
+);
+alter table public.recipe_editor_notes enable row level security;
+drop policy if exists "Admins read recipe notes" on public.recipe_editor_notes;
+create policy "Admins read recipe notes" on public.recipe_editor_notes
+ for select to authenticated using ((select public.is_kitchen_admin()));
+drop policy if exists "Admins insert recipe notes" on public.recipe_editor_notes;
+create policy "Admins insert recipe notes" on public.recipe_editor_notes
+ for insert to authenticated with check ((select public.is_kitchen_admin()));
+drop policy if exists "Admins update recipe notes" on public.recipe_editor_notes;
+create policy "Admins update recipe notes" on public.recipe_editor_notes
+ for update to authenticated
+ using ((select public.is_kitchen_admin())) with check ((select public.is_kitchen_admin()));
+drop policy if exists "Admins delete recipe notes" on public.recipe_editor_notes;
+create policy "Admins delete recipe notes" on public.recipe_editor_notes
+ for delete to authenticated using ((select public.is_kitchen_admin()));
