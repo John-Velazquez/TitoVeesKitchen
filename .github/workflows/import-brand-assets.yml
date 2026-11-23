@@ -1,0 +1,43 @@
+name: Import approved Tito Vee brand images
+on:
+  push:
+    branches:
+      - feature/recipe-catalog-design-v1
+    paths:
+      - .github/workflows/import-brand-assets.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import-original-artwork:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the branding branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/recipe-catalog-design-v1
+          persist-credentials: true
+      - name: Fetch four user-approved original PNG files
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p public/brand
+          curl --fail --location --silent --show-error --max-time 120 'https://at.adobe.com/ctc2n1W3CX6cKtIK' -o public/brand/titovees-kitchen-primary-logo.png
+          curl --fail --location --silent --show-error --max-time 120 'https://at.adobe.com/KC9Z9gz3bNHajSoy' -o public/brand/titovees-kitchen-illustrated-logo.png
+          curl --fail --location --silent --show-error --max-time 120 'https://at.adobe.com/A0aO3YLFJdtTaqWK' -o public/brand/titovees-kitchen-wordmark.png
+          curl --fail --location --silent --show-error --max-time 120 'https://at.adobe.com/jxrq8H3azjlZMSXL' -o public/brand/onion-garlic-mascots.png
+          echo '371b194b663f52de5ccc9cbbc901643928154d6f1a58b98e5eea9c807d2e26d8  public/brand/titovees-kitchen-primary-logo.png' > /tmp/approved-artwork.sha256
+          echo 'e0e39376facb344e71ad08d8d2393df2a11e38ec9776c315b43cd30c4ec847d3  public/brand/titovees-kitchen-illustrated-logo.png' >> /tmp/approved-artwork.sha256
+          echo 'ef830eaa2f4f63e7124d827204cdaed47846f67304ec036d6814e99d62308542  public/brand/titovees-kitchen-wordmark.png' >> /tmp/approved-artwork.sha256
+          echo '13d227d7bc9eaf1c6b9034067cf3f7af3cac2085046288210f918db138e69b8e  public/brand/onion-garlic-mascots.png' >> /tmp/approved-artwork.sha256
+          sha256sum -c /tmp/approved-artwork.sha256
+      - name: Commit original logo artwork without modification
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/brand/*.png
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Add approved original Tito Vee brand artwork"
+          git push origin HEAD:feature/recipe-catalog-design-v1
