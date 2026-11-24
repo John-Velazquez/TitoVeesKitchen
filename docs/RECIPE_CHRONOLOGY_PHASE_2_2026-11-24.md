@@ -1,0 +1,33 @@
+# Tito Vee's Kitchen — Phase 2 Source-Linked Recovery Audit (2026-11-24)
+
+## Provenance and timestamp discipline
+This is a **date-level, secondary-source recovery** pass across 15 additional records from the existing Supabase recipe corpus and GitHub source-audit history. It is **not** a newly obtained export of every original ChatGPT message, video or photograph. Original individual-message timestamps were NOT recovered for this batch; do not fabricate times. The recipe date is an event date, not the date every step occurred. History annotations were saved in `public.recipe_editor_notes`; published recipes were not silently reformulated.
+
+Original source attachments for November 1 sofrito and November 22 egg rolls were referenced in the history but their original video/photo content was not independently reopened in this pass. All user-confirmed details cited here are *recoveries already recorded by earlier audits*, not a claim of fresh primary verification.
+
+## Cooking-event sequences, relationships, and unresolved issues
+
+| Event date | Recipe(s) | Recovered chronological structure and non-negotiable version distinction | Gaps / risks |
+|---|---|---|---|
+| Oct 28–29 | Thai Red Curry Crispy Chicken Tacos | Two breasts → milk/lemon seasoned marinade (~2h) → separate sauce reduction (cream of coconut + Thai paste; no extra sauce seasonings) → cabbage-carrot Kewpie slaw without cilantro → frozen creamy corn with dry gochujang → 1:2 flour/panko breading → **single** 350–400°F fry → wife-approved five stars. Rice planned but not served. | Individual seasoning amounts, can size, portion count, exact per-step timestamps unknown |
+| Oct 29 | Thai Red Curry Coconut Sauce | Made as independent component; ~3 ordinary eating spoonfuls red curry paste with a can cream of coconut, some added cream, reduced to glossy. Used ~2 spoonfuls in slaw and some as drizzle. | Ordinary spoons are **not** validated tablespoons; cream amount and finished yield unknown |
+| Oct 30 | Tropical Sweet & Sour Pork Tacos | Two tenderloins prepped, one frozen for later; seasoned remaining meat included Dot's Greek; pineapple (~3 fl oz), broth (~1 cup) wet marinade with other unmeasured liquids; after refrigeration, cast iron sear then flash sear; glaze **reused** ~3 spoonfuls of previous day's Thai sauce with cream of coconut and ~⅛ cup sour cream. | Do not depict two loins cooked; brand-wide curry clarification does not prove a specific new dry spice dose; exact finished temperature not established by the chronological recovery |
+| Nov 14–15 | Creole Salmon Dinner | One large salmon piece cut into two → Creole/Adobo/anchovy powder, infused ghee and lemon → parchment/foil cook, attempted skin crisping dried fish. Sides: already steamed broccoli; PAWS DOTS sweet potatoes with separately added brown sugar/pumpkin pie spice; canned Cajun corn soaked in equal milk/cream then reduced. Wife scored **complete plate** 7.5/10. | Individual ingredient quantities and oven times unknown; separately air-frying skin was a future proposal, not an observed successful method |
+| Nov 14–15 | PAWS DOTS Sweet Potato Mash | Boiled/diced sweet potatoes with brand's PAWS DOTS, plus separate brown sugar and pumpkin pie spice. | Do not invent separate anise/cinnamon/turmeric/parsley additions from the premixed label; no independent rating |
+| Nov 14–15 | Creamy Cajun Corn with Gochujang | **Canned** corn, equal dairy parts, Dot's Cajun and gochujang, soak about an hour, reduce to coat kernels. | Distinct from **frozen** October corn. Exact paste vs powder and dose unknown |
+| Oct 19 | Curry-Crusted Sourdough Fried Chicken Sandwich | One breast / four pieces; wash with egg, milk, butter cream, leftover peach batter; 1 cup crouton crumbs + ⅓ cup self-rising flour + ~2 tbsp curry + brown sugar; peanut oil ~350°F; butter-chicken slaw. | Separate from Oct 29 Thai tacos; exact Dot's curry SKU unknown |
+| Nov 22 | Philly Cheesesteak Egg Rolls | 0.81 lb NY strip, sweet onion, seasoning by feel; eight large egg rolls from 16 **double** wrappers and Havarti; initially deep fried, shells opened; successful adjustment was seam-down shallow frying. | Exact oil temperature, frying duration, original time-coded photos unavailable |
+| Nov 1 | Puerto Rican Sofrito; Strained Liquid | Mixed peppers, cooked infused-oil garlic/onion, separately held raw aromatics, green herbs; no water/salt/acid; strained natural liquid with towel. **Reserved for a future mojo idea only.** | Uploaded original videos/reference still need direct review; **no completed mojo** |
+| Sep 19 | Fried Oxtail Stuffing Cups | Seasoned ground-beef and breadcrumb shell, oven experiment shaped on underside of muffin pan; intended later empty-shell fry, filling with pulled braised oxtail only after frying. | No confirmed completed fried-and-filled service; assistant proposed binder ratios must not be presented as executed |
+| Historical oxtail session | Dark-Braised Oxtail | 1.58 lb oxtail, sear/braise preserved in prior archive. Leftover links: meat for six buns; two bones for rice; one bone for soup. | Original step-by-step timestamp transcript not in current source view |
+| Historical leftovers | Oxtail Steamed Buns | Six, simple dough only milk + yeast + bread flour (no butter, salt or sugar in that version), shredded oxtail filling. | Confirm actual steam duration against original messages |
+| Historical leftovers | Oxtail-Bone Rice | Two bones, culantro, bay, sofrito, Sazón, rice. | Do not invent original rice-to-water ratio |
+| Historical leftovers | Oxtail-Bone Miso Soup | Third bone, vegetables, miso packet and soft tofu. | Distinct from Asian-market clear soup *tasting* research; water volume unknown |
+
+## Corrections applied
+- Added **15 separate date-level historical provenance entries** to matching admin-only `recipe_editor_notes` rows, retaining all existing notes.
+- Changed the public sofrito `quick_tricks` claim that reserved liquid "was used separately for mojo" to the accurate distinction: **saved as a possible future mojo base; no finished mojo sauce confirmed**.
+- No other public ingredient amounts or instructions changed and no recipe drafts were published in this pass.
+
+## What remains necessary for a high-fidelity archive
+Recover individual original messages and attachment media rather than treating previous summary text as a transcript. For each chronological recipe event capture exact message timestamps **only where displayed by source**, note whether each action was proposed or carried out, and never calculate cook durations from message interval alone. After primary-source reconciliation, propagate corrected quantities and methods to public pages, keeping incomplete recipes flagged for owner verification.
