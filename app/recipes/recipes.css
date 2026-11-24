@@ -18,3 +18,5 @@
 .recipe-recovery-notice p{margin:.45rem 0;max-width:750px}
 .recipe-recovery-notice a{text-decoration:underline;text-underline-offset:3px;font-weight:700;color:#80502e}
 @media(max-width:530px){.recipe-search-toolbar{flex-direction:column;align-items:stretch}.recipe-owner-toolbar{flex-wrap:wrap}}
+
+.recipe-inline-link{color:#8a4c26;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:700;border-radius:2px}.recipe-inline-link:hover{color:#5e361d;background:#f7e4c8}.recipe-inline-link:focus-visible{outline:2px solid #355b50;outline-offset:3px}.recipe-inline-link.brand{color:#415a39}.recipe-external-mark{font-size:.7em;margin-left:.15em}
