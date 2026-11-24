@@ -16,7 +16,12 @@ const recipeAliases:Record<string,string[]>={
  "vanilla-extract":["homemade vanilla extract"],
  "chicken-crust-personal-pizzas":["chicken crust pizzas"],
  "oxtail-bone-rice":["oxtail bone rice"],
- "oxtail-bone-miso-soup":["oxtail bone miso soup"]
+ "oxtail-bone-miso-soup":["oxtail bone miso soup"],
+ "thai-red-curry-coconut-sauce":["Thai red curry coconut sauce","Thai red curry–coconut sauce","red curry-coconut sauce","red curry–coconut sauce","leftover Thai red curry coconut sauce","prepared red curry-coconut sauce"],
+ "paws-dots-sweet-potato-mash":["sweet potato mash","mashed sweet potatoes"],
+ "creamy-cajun-corn-with-gochujang":["Cajun corn","creamy Cajun corn"],
+ "peach-skin-simple-syrup":["peach-skin syrup","peach skin syrup"],
+ "fried-oxtail-stuffing-cups":["oxtail stuffing cups"]
 };
 
 function normalize(value:string){return value.toLocaleLowerCase("en-US").replace(/[’]/g,"'").replace(/\s+/g," ").trim();}
