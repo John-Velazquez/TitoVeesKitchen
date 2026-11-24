@@ -6,3 +6,15 @@
 .recipe-draft-banner p{margin:.5rem 0;line-height:1.55}
 .recipe-draft-banner a{font-weight:700;color:#77401d;text-decoration:underline;text-underline-offset:3px}
 .recipe-card-hint{font-size:.8rem;color:#775f45;line-height:1.45}
+
+.recipe-collection-count{font-weight:700;color:#5d6e43;margin:1rem 0 1.4rem}
+.recipe-search-toolbar{display:flex;gap:1rem;align-items:end;flex-wrap:wrap;margin:1.5rem 0 1.9rem}
+.recipe-search-field{display:flex;flex-direction:column;gap:.45rem;color:#665344;font-size:.85rem;font-weight:700;flex:1 1 240px}
+.recipe-search-field input,.recipe-search-field select{padding:.85rem;border:1px solid #bfa88f;background:#fffaf1;border-radius:7px;color:#2b211c;font:inherit;min-width:0}
+.recipe-owner-toolbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.8rem 1.1rem;background:#ede2d1;border:1px solid #d2bfa6;border-radius:9px;font-size:.85rem}
+.recipe-owner-toolbar a{font-weight:700;color:#8a4a2c;text-decoration:underline}
+.recipe-catalog-card h3{font-size:1.38rem;line-height:1.24;margin:0;font-family:Georgia,serif}
+.recipe-recovery-notice{background:#f8f0da;border:1px solid #d7b982;border-radius:10px;padding:1.1rem 1.3rem;margin:1.1rem 0 1.5rem;color:#4e3b28}
+.recipe-recovery-notice p{margin:.45rem 0;max-width:750px}
+.recipe-recovery-notice a{text-decoration:underline;text-underline-offset:3px;font-weight:700;color:#80502e}
+@media(max-width:530px){.recipe-search-toolbar{flex-direction:column;align-items:stretch}.recipe-owner-toolbar{flex-wrap:wrap}}
