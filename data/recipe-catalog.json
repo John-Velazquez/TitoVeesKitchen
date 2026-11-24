@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
-  "catalog_updated": "2026-11-22",
-  "repository_note": "Reconstructed from available Recipe Project conversation history, earlier prototype references, and directly available recipe documents; not a verified export of all historical v0.3/v1.2 records.",
-  "policy": "Unpublished by default. Concept records are not finished recipes. Do not add invented ingredient quantities or publish as verified.",
+  "catalog_updated": "2026-11-24",
+  "repository_note": "Historical catalog index, not the authoritative recipe publication/status database; check Supabase public.recipes for live values.",
+  "policy": "Source-trace named recipes and versions, distinguish confirmed measurements from proposals, and do not manufacture quantities. Historical archive publication fields may be stale.",
   "recipes": [
     {
       "slug": "herb-infused-garlic-confit-ghee",
@@ -601,6 +601,42 @@
       "status": "Dish research only",
       "notes": "Do not represent as personal recipe",
       "publication": "unpublished",
+      "verified_full_recipe": false,
+      "review_required": true
+    },
+    {
+      "slug": "thai-red-curry-crispy-chicken-tacos",
+      "title": "Thai Red Curry Crispy Chicken Tacos",
+      "category": "Main Dishes",
+      "evidence": "Recovered completed cooking conversation",
+      "source": "October 28–29, 2026 cooking session, user-rated five-star meal",
+      "status": "Published — partial measurements",
+      "notes": "Distinct from October 19 curry-crusted sandwich; PAWS DOTS and Thai red curry sauce, 2-hour milk/lemon chicken marinade, slaw and corn.",
+      "publication": "published",
+      "verified_full_recipe": false,
+      "review_required": true
+    },
+    {
+      "slug": "creole-salmon-with-sweet-potato-mash-steamed-broccoli-and-cajun-corn",
+      "title": "Creole Salmon with Sweet Potato Mash, Steamed Broccoli, and Cajun Corn",
+      "category": "Main Dishes",
+      "evidence": "Recovered tested cooking conversation",
+      "source": "November 14–15, 2026 cooking session, wife scored 7.5/10",
+      "status": "Published — incomplete ratios",
+      "notes": "Uses Dot's Creole and Cajun seasonings and PAWS DOTS; preserve salmon skin-crisping drying issue and planned separate air-fry test.",
+      "publication": "published",
+      "verified_full_recipe": false,
+      "review_required": true
+    },
+    {
+      "slug": "peach-skin-simple-syrup",
+      "title": "Peach-Skin Simple Syrup",
+      "category": "Condiments & Foundations",
+      "evidence": "Recovered recipe component",
+      "source": "October 17, 2026 Signature Spiced Peach Cobbler v2.0 conversation",
+      "status": "Published — original dosage unrecorded",
+      "notes": "523g peach-skin infusion + 260g sugar; do not equate whole syrup batch with amount put into cobbler.",
+      "publication": "published",
       "verified_full_recipe": false,
       "review_required": true
     }
