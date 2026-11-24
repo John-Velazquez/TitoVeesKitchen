@@ -45,7 +45,7 @@ export default function Recipes(){
  const research=rows.filter(r=>r.category===RESEARCH);
  const categories=useMemo(()=>["All",...Array.from(new Set(published.map(r=>r.category))).sort()], [rows]);
  const filtered=published.filter(r=>(category==="All"||r.category===category) &&
-  (r.title+" "+r.category+" "+r.summary).toLowerCase().includes(query.toLowerCase()));
+  (r.title+" "+r.category+" "+r.summary+" "+r.ingredients).toLowerCase().includes(query.trim().toLowerCase()));
  const byCategory=Array.from(new Set(filtered.map(r=>r.category))).sort();
  return <main className="recipe-site recipe-shell">
   <p className="recipe-crumb"><Link href="/">Home</Link> / Recipe collection</p>
