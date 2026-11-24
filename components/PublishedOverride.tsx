@@ -3,10 +3,14 @@ import {useEffect,useState,type ReactNode} from "react";
 import Link from "next/link";
 import {getSupabase} from "@/lib/supabase";
 import {cleanLines,type RecipeRecord} from "@/lib/recipe-types";
+import LinkedRecipeText from "@/components/LinkedRecipeText";
+import {type BrandLink,type RecipeLinkTarget} from "@/lib/recipe-linking";
 import "@/app/recipes/recipes.css";
 
 export function PublishedOverride({slug,fallback=null}:{slug:string;fallback?:ReactNode}){
  const [recipe,setRecipe]=useState<RecipeRecord|null>(null);
+ const [linkedRecipes,setLinkedRecipes]=useState<RecipeLinkTarget[]>([]);
+ const [brands,setBrands]=useState<BrandLink[]>([]);
  const [canEdit,setCanEdit]=useState(false);
  const [loading,setLoading]=useState(true);
  const [loadError,setLoadError]=useState("");
@@ -35,12 +39,21 @@ export function PublishedOverride({slug,fallback=null}:{slug:string;fallback?:Re
    }catch(e){if(active&&current===request){setLoadError(e instanceof Error?e.message:String(e));setLoading(false);}}
   }
   void refresh();
+  void Promise.all([
+   db.from("recipes").select("slug,title").eq("status","published"),
+   db.from("brand_links").select("id,name,website_url,aliases,enabled")
+  ]).then(([recipeRefs,brandRefs])=>{
+   if(!active)return;
+   if(!recipeRefs.error)setLinkedRecipes((recipeRefs.data??[]) as RecipeLinkTarget[]);
+   if(!brandRefs.error)setBrands((brandRefs.data??[]) as BrandLink[]);
+  });
   const {data:{subscription}}=db.auth.onAuthStateChange(()=>{void refresh();});
   return()=>{active=false;request++;subscription.unsubscribe();};
  },[slug]);
  if(loading)return <div className="recipe-site recipe-shell"><p role="status">Loading recipe…</p></div>;
  if(loadError)return <div className="recipe-site recipe-shell"><p role="alert">Unable to load recipe: {loadError}</p><Link href="/recipes">Back to recipes</Link></div>;
  if(!recipe)return <>{fallback??<div className="recipe-site recipe-shell"><p className="recipe-crumb"><Link href="/recipes">Recipes</Link></p><h1>Recipe not published</h1><p>This recipe is not available to visitors yet. Sign in with an owner account to preview drafts.</p></div>}</>;
+ const inline=(text:string)=><LinkedRecipeText text={text} currentSlug={slug} recipes={linkedRecipes} brands={brands}/>;
  const isResearch=recipe.category==="Ideas & Research";
  const incomplete=!recipe.ingredients.trim()||!recipe.instructions.trim();
  const hasUnknowns=/not recorded|unrecorded|unverified|not recovered|unknown|reconstructed|not validated|amount not|quantity not|ratio not|suggested|original.*missing/i.test(recipe.ingredients+" "+recipe.instructions+" "+recipe.summary);
@@ -70,16 +83,16 @@ export function PublishedOverride({slug,fallback=null}:{slug:string;fallback?:Re
    {blocks.filter(x=>x[0]!=="Equipment"&&x[0]!=="Ingredients").map(([title,content])=>content.trim()&&<section className="recipe-section" key={title}><h2>{title}</h2>{title==="The method"?cleanLines(content).map((line,i)=>{
     const step=line.replace(/^\d+\.\s*/,"");
     const divider=step.indexOf(": ");
-    return <div className="recipe-step" key={i}><span className="recipe-step-number">{String(i+1).padStart(2,"0")}</span><div>{divider>=0?<><h3>{step.slice(0,divider)}</h3><p>{step.slice(divider+2)}</p></>:<p>{step}</p>}</div></div>;
-   }):content.split("\n").map((line,i)=><p key={i} style={{whiteSpace:"pre-wrap"}}>{line||" "}</p>)}</section>)}
+    return <div className="recipe-step" key={i}><span className="recipe-step-number">{String(i+1).padStart(2,"0")}</span><div>{divider>=0?<><h3>{step.slice(0,divider)}</h3><p>{inline(step.slice(divider+2))}</p></>:<p>{inline(step)}</p>}</div></div>;
+   }):content.split("\n").map((line,i)=><p key={i} style={{whiteSpace:"pre-wrap"}}>{inline(line||" ")}</p>)}</section>)}
   </div><aside>
   {recipe.ingredients.trim()&&<section className="recipe-panel" style={{marginBottom:"1rem"}}><h2>Ingredients</h2>
    {recipe.ingredients.includes("\n\n")?recipe.ingredients.split(/\n\s*\n/).filter(x=>x.trim()).map((group,i)=>{
     const [heading,...items]=cleanLines(group);
-    return <div key={i}><h3>{heading}</h3><ul className="recipe-list">{items.map((line,j)=><li key={j}>{line}</li>)}</ul></div>;
-   }):<ul className="recipe-list">{cleanLines(recipe.ingredients).map((line,i)=><li key={i}>{line}</li>)}</ul>}
+    return <div key={i}><h3>{heading}</h3><ul className="recipe-list">{items.map((line,j)=><li key={j}>{inline(line)}</li>)}</ul></div>;
+   }):<ul className="recipe-list">{cleanLines(recipe.ingredients).map((line,i)=><li key={i}>{inline(line)}</li>)}</ul>}
   </section>}
-  {recipe.equipment.trim()&&<section className="recipe-panel" style={{marginBottom:"1rem"}}><h2>Equipment</h2><ul className="recipe-list">{cleanLines(recipe.equipment).map((line,i)=><li key={i}>{line}</li>)}</ul></section>}
+  {recipe.equipment.trim()&&<section className="recipe-panel" style={{marginBottom:"1rem"}}><h2>Equipment</h2><ul className="recipe-list">{cleanLines(recipe.equipment).map((line,i)=><li key={i}>{inline(line)}</li>)}</ul></section>}
   </aside></div>}
  </article>;
 }
