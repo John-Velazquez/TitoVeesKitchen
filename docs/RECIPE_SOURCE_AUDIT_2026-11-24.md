@@ -1,98 +1,167 @@
-# Tito Vee’s Kitchen — Source-Fidelity and Recipe Completeness Audit
+# Tito Vee’s Kitchen — Source Audit and Recipe Completeness Matrix
 
-Audit date: November 24, 2026. Live editable source: Supabase `public.recipes`. This is a status snapshot, not a claim that all historical chats are fully accessible or every recipe has been independently verified.
+Reconciled November 24, 2026. Editable source of truth: Supabase `public.recipes`. Historical index: `data/recipe-catalog.json`.
 
-**Database:** 55 records, 46 publicly available, 9 private drafts. 48 have both ingredient and method text. 48 contain language indicating an unresolved quantity, unverified step, approximation, or source ambiguity. Populated fields are *not* proof of a finished, repeatable recipe.
+**Verified live status:** 58 total records, 49 public, 9 private drafts. 51 have populated ingredient and method fields. **These are not necessarily fully measured recipes.** 51 include terms reflecting incomplete quantities, uncertainty, reconstruction, or approximate cooking.
 
-**Completeness gaps:** 29 lack yield, 54 lack prep time, 41 lack cook time, 51 lack macros, and 55 lack a recipe photo. Missing values must be recovered from a source or explicitly calculated/labeled as estimates; do not invent original quantities.
+**Unresolved site quality fields:** 32 missing yields, 57 missing prep times, 44 missing cook times, 54 missing macros, 58 without final photos.
 
-## What was rechecked
+## High-confidence source corrections during this audit
 
-- Project conversation retrieval for June 14 Curry Chicken, October 19 Curry-Crusted Sourdough Fried Chicken Sandwich, October 28–29 Thai Red Curry Crispy Chicken Tacos, and October 30 Tropical Sweet & Sour Pork Tacos.
-- Original November 14–15 Creole Salmon dinner and its sweet-potato mash, PAWS DOTS seasoning, broccoli, and Cajun corn; wife rated it 7.5/10 and salmon dried during skin crisping.
-- October 17 peach-skin syrup component, September 19 Fried Oxtail Stuffing Cups development and November 1 reserved liquid from homemade Puerto Rican Sofrito.
-- Historical catalog, publicly published Supabase recipe records, admin-only provenance, and directly retrievable uploaded recipe files. Exact older prototype export is still not located.
+1. **All curry dishes:** User confirmed the use of **Dot’s Natural Spices curry seasoning** (maker URL https://dotsnaturalspices.com/). Four main recipes containing curry are annotated accordingly; only a product whose exact brand/SKU is known is stated definitively.
+2. **June 14 Curry Chicken:** Caramelized onions + butter + Dot’s curry seasoning are source-confirmed; earlier suggestions of cream/milk/broth and blending were misrepresented as if confirmed. Moved proposed variants out of the primary ingredient list. Chicken mass and liquid quantity still unknown.
+3. **October 19 Curry-Crusted Sourdough Fried Chicken Sandwich:** Distinct from the October 29 Thai red curry chicken tacos; original had 1 cup homemade crouton crumbs, ⅓ cup self-rising flour, about 2 tbsp curry seasoning, a little brown sugar, and 350°F fry.
+4. **October 28–29 Thai Red Curry Crispy Chicken Tacos:** Entirely missing from previous catalog; wife-approved five stars. Recorded 2 breasts, 2 cups milk + 2 tbsp lemon, PAWS DOTS, 2-hour marinade, one-can coconut sauce + ~3 regular spoonfuls red curry paste, slaw with Kewpie, seasoned corn, 1 part flour to 2 parts panko, 350–400°F single fry.
+5. **October 30 Tropical Sweet & Sour Pork Tacos:** Confirmed two tenderloins, one frozen; dry seasoning includes Dot’s Greek; marinade with ~3 oz pineapple juice; sauce reuses next-day/previous-day **Thai Red Curry Coconut Sauce**.
+6. **November 14–15 Creole Salmon dinner:** Recovered omitted completed dinner, two salmon pieces, Dot’s Creole seasoning, mash with **PAWS DOTS** plus separately added brown sugar and pumpkin pie spice, pre-steamed broccoli, and canned corn soaked in equal milk/cream with Dot’s Cajun and gochujang. Wife's 7.5/10 was for the plate. Salmon dried attempting to crisp skin; planned separate skin air-fry not yet tested.
+7. **Peach-Skin Simple Syrup:** Original 523 g strained peach-skin infusion with 260 g sugar, ~5-minute simmer. Total syrup batch is not the amount applied to cobbler.
+8. **Fried Oxtail Stuffing Cups:** Separate development draft: savory ground-beef/breadcrumb cups with pulled braised oxtail filled AFTER cooking. Oven-formed shell test documented; finished fried-and-filled service not confirmed.
+9. **Sofrito Strained Liquid:** Only the natural liquid extracted from green sofrito was reserved for potential mojo. No actual acidic mojo sauce was confirmed.
+10. **Reusable components separated:** Thai Red Curry Coconut Sauce, PAWS DOTS Sweet Potato Mash, and Creamy Cajun Corn with Gochujang now have independent records and internal recipe links. These are source-recovered components, not fictional additions.
 
-## Important corrections
+## Source handling rules
 
-1. User clarification: **all curry dishes used Dot’s Natural Spices curry seasoning**. Every published curry recipe now names the maker. Where exact blend SKU/dose wasn't recorded, the gap remains explicit. Specific **PAWS DOTS** is a seasoning name; its constituent spices must *not* be presented as separate additions.
-2. **June 14 Curry Chicken:** Confirmed butter-caramelized onions + Dot’s curry seasoning and chicken to finish in the sauce. Prior site version wrongly described seasoning type as unknown and treated assistant-proposed liquids as options in the ingredient list; that unsupported list was removed.
-3. **October 19 Fried Chicken Sandwich:** Kept separate from October 29 Thai Red Curry Chicken Tacos. Recorded the Dot’s maker without inventing an exact product variant.
-4. **October 28–29 Thai Red Curry Crispy Chicken Tacos:** Recovered wife-rated five-star completed dish, previously omitted. Preserves 2 cups milk + 2 tbsp lemon, 2-hour chicken marinade, PAWS DOTS, cream of coconut + ~3 spoons Thai red curry paste, Kewpie slaw, gochujang corn, 1:2 flour-to-panko and single 350–400°F fry.
-5. **October 30 Tropical Pork Tacos:** Two tenderloins (one frozen), Dot’s Greek seasoning, a pineapple-Worcestershire marinade, two-stage cast-iron sear, and use of *leftover* red curry coconut sauce are now clearly distinguished from the chicken tacos.
-6. **November 14–15 Creole Salmon Dinner:** Added separately, preserving Dot’s Creole and Cajun seasonings and **PAWS DOTS** in the sweet-potato mash; pumpkin pie spice and brown sugar were independently added. Notes record the salmon drying problem and plan for separate skin crisping.
-7. **October 17 Peach-Skin Syrup:** Separate component, 523 g infusion + 260 g sugar. The amount applied to one cobbler remains unknown and is not equated with a whole batch.
-8. **September 19 Fried Oxtail Stuffing Cups:** Separate private draft; oven-formed cup experiment versus planned crisp fried cups filled AFTER frying. Final fried/filled serving not verified.
-9. **November 1 Sofrito Mojo Base:** Separate private component; naturally extracted sofrito liquid was reserved, with no actual completed mojo sauce or added citrus/water/vinegar documented.
+- Preserve original explicit measurements and procedural choices. Mark **unmeasured** when a recipe was seasoned by feel; do not manufacture tablespoons or minutes.
+- Keep user-confirmed steps separate from assistant proposals, safety recommendations and post-hoc reconstructions.
+- 'PAWS DOTS' denotes a specific seasoning product; anise/cinnamon/turmeric/parsley are product ingredients, not separately added. Pumpkin pie spice and brown sugar in mash WERE separate.
+- The October 29 **Thai Red Curry Coconut Sauce** was unseasoned during sauce reduction; don't automatically add curry seasoning to the sauce just because the chicken portion used Dot's seasoning.
+- Distinguish separate variants: October Thai chicken versus October pork tacos; November Cajun canned corn versus October frozen creamy corn; March versus April cookies; June/October chicken crust pizzas; sourdough versus commercial yeast brioche.
+- Do not call every populated record 'final'. Many public records still lack yields/times/macros and/or have unmeasured source ratios.
+- No result here establishes literal access to every historical chat message or an inaccessible v0.3–v1.2 prototype export; the audit used retrievable conversation evidence, full available source files, and the current live database.
 
-## Per-record completeness matrix
+## Record-by-record matrix
 
-Legend: ✓ field populated; — missing. **!** source uncertainty expressed in recorded content. Field presence does not imply accurate or complete original measurements.
+Legend: ✓ populated, — missing; ! means uncertainty language exists and should be reviewed. The columns indicate field presence only.
 
-| Recipe | Status | Ingredients | Method | Yield | Prep | Cook | Macros | Photo | Source gap |
-|---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| Fried Oxtail Stuffing Cups | Draft | ✓ | ✓ | — | — | — | — | — | ! |
-| Garlic Shrimp | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Philly Cheesesteak Egg Rolls | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
-| Pork & Shrimp Dumplings | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
-| Brioche Burger Buns | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
-| Brioche Sandwich Loaf | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
-| Buttery Garlic Naan | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
-| Everyday Sandwich Bread | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Homemade Buttermilk-Style Biscuits | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
-| Homemade Italian Bread Loaf | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
-| Italian Bread — Bread Machine Adaptation | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
-| Pan Sobao | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
-| Sourdough Milk Brioche Sandwich Bread | Public | ✓ | ✓ | ✓ | — | ✓ | ✓ | — | ! |
-| Sourdough Starter | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
-| Tortillas | Draft | — | — | — | — | — | — | — | — |
-| Biscuits and Sausage Gravy | Public | ✓ | ✓ | — | — | — | — | — | — |
-| Pancakes | Public | ✓ | ✓ | — | — | — | — | — | — |
-| Smoky Espresso Sausage Gravy | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
-| Confit-Garlic Naan Spread | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
-| Herb-Infused Garlic Confit Ghee | Public | ✓ | ✓ | ✓ | — | ✓ | ✓ | — | ! |
-| Infused Avocado Oil | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Peach-Skin Simple Syrup | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
-| Puerto Rican Sofrito | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Sofrito Strained Liquid — Reserved Mojo Base | Draft | ✓ | ✓ | — | — | — | — | — | — |
-| Vanilla Extract | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Chocolate Chunk Cookies — April Chewy Revision (provisional B) | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Chocolate Chunk Cookies — March Original (provisional A) | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
-| Deep Caramel Egg-Yolk Flan | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
-| Signature Spiced Peach Cobbler | Public | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | ! |
-| Coquito | Draft | ✓ | — | — | — | — | — | — | ! |
-| Iced Vanilla Matcha Latte | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
-| American Chinese Restaurant-Style Fried Chicken Wings | Draft | — | — | — | — | — | — | — | — |
-| Garlic Bread with Reserved Confit Garlic | Draft | — | — | — | — | — | — | — | — |
-| Japanese/Chinese-Style Clear Soup Investigation | Draft | — | — | — | — | — | — | — | — |
-| Beef Shanks | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
-| Cast-Iron Swordfish | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Chicken-Crust Personal Pizzas | Public | ✓ | ✓ | ✓ | — | — | ✓ | — | ! |
-| Creole Salmon with Sweet Potato Mash, Steamed Broccoli, and Cajun Corn | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
-| Curry Chicken | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Curry-Crusted Sourdough Fried Chicken Sandwich with Butter Chicken Slaw | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
-| Dark-Braised Oxtail | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
-| Oxtail Steamed Buns | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
-| Pork Loin Al-Pastor-Style Quesadillas | Draft | ✓ | — | — | — | — | — | — | ! |
-| Slow-Roasted Spatchcock Chicken with Potatoes | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Thai Red Curry Crispy Chicken Tacos | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
-| Tropical Sweet & Sour Pork Tacos | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Whole Fried Red Snapper | Public | ✓ | ✓ | — | — | ✓ | — | — | ! |
-| Carne Asada Marinade | Draft | ✓ | — | — | — | — | — | — | ! |
-| Halal-Cart-Style White Sauce | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Vodka Farfalle with Fried Mozzarella | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Brothy Pinto Beans | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Oxtail-Bone Rice | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Thanksgiving Stuffing | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Wok-Glazed Broccoli | Public | ✓ | ✓ | — | — | — | — | — | ! |
-| Oxtail-Bone Miso Soup | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Recipe | Category | Status | Ingredients | Method | Yield | Prep | Cook | Macros | Photo | Source caveat |
+|---|---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Fried Oxtail Stuffing Cups | Appetizers & Snacks | Draft | ✓ | ✓ | — | — | — | — | — | ! |
+| Garlic Shrimp | Appetizers & Snacks | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Philly Cheesesteak Egg Rolls | Appetizers & Snacks | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
+| Pork & Shrimp Dumplings | Appetizers & Snacks | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
+| Brioche Burger Buns | Breads | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
+| Brioche Sandwich Loaf | Breads | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
+| Buttery Garlic Naan | Breads | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
+| Everyday Sandwich Bread | Breads | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Homemade Buttermilk-Style Biscuits | Breads | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
+| Homemade Italian Bread Loaf | Breads | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
+| Italian Bread — Bread Machine Adaptation | Breads | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
+| Pan Sobao | Breads | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
+| Sourdough Milk Brioche Sandwich Bread | Breads | Public | ✓ | ✓ | ✓ | — | ✓ | ✓ | — | ! |
+| Sourdough Starter | Breads | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
+| Tortillas | Breads | Draft | — | — | — | — | — | — | — | — |
+| Biscuits and Sausage Gravy | Breakfast | Public | ✓ | ✓ | — | — | — | — | — | — |
+| Pancakes | Breakfast | Public | ✓ | ✓ | — | — | — | — | — | — |
+| Smoky Espresso Sausage Gravy | Breakfast | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
+| Confit-Garlic Naan Spread | Condiments & Foundations | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
+| Herb-Infused Garlic Confit Ghee | Condiments & Foundations | Public | ✓ | ✓ | ✓ | — | ✓ | ✓ | — | ! |
+| Infused Avocado Oil | Condiments & Foundations | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Peach-Skin Simple Syrup | Condiments & Foundations | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
+| Puerto Rican Sofrito | Condiments & Foundations | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Sofrito Strained Liquid — Reserved Mojo Base | Condiments & Foundations | Draft | ✓ | ✓ | — | — | — | — | — | — |
+| Vanilla Extract | Condiments & Foundations | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Chocolate Chunk Cookies — April Chewy Revision (provisional B) | Desserts | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Chocolate Chunk Cookies — March Original (provisional A) | Desserts | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
+| Deep Caramel Egg-Yolk Flan | Desserts | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
+| Signature Spiced Peach Cobbler | Desserts | Public | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | — | ! |
+| Coquito | Drinks | Draft | ✓ | — | — | — | — | — | — | ! |
+| Iced Vanilla Matcha Latte | Drinks | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
+| American Chinese Restaurant-Style Fried Chicken Wings | Ideas & Research | Draft | — | — | — | — | — | — | — | — |
+| Garlic Bread with Reserved Confit Garlic | Ideas & Research | Draft | — | — | — | — | — | — | — | — |
+| Japanese/Chinese-Style Clear Soup Investigation | Ideas & Research | Draft | — | — | — | — | — | — | — | — |
+| Beef Shanks | Main Dishes | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
+| Cast-Iron Swordfish | Main Dishes | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Chicken-Crust Personal Pizzas | Main Dishes | Public | ✓ | ✓ | ✓ | — | — | ✓ | — | ! |
+| Creole Salmon with Sweet Potato Mash, Steamed Broccoli, and Cajun Corn | Main Dishes | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
+| Curry Chicken | Main Dishes | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Curry-Crusted Sourdough Fried Chicken Sandwich with Butter Chicken Slaw | Main Dishes | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
+| Dark-Braised Oxtail | Main Dishes | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
+| Oxtail Steamed Buns | Main Dishes | Public | ✓ | ✓ | ✓ | — | ✓ | — | — | ! |
+| Pork Loin Al-Pastor-Style Quesadillas | Main Dishes | Draft | ✓ | — | — | — | — | — | — | ! |
+| Slow-Roasted Spatchcock Chicken with Potatoes | Main Dishes | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Thai Red Curry Crispy Chicken Tacos | Main Dishes | Public | ✓ | ✓ | ✓ | — | — | — | — | ! |
+| Tropical Sweet & Sour Pork Tacos | Main Dishes | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Whole Fried Red Snapper | Main Dishes | Public | ✓ | ✓ | — | — | ✓ | — | — | ! |
+| Carne Asada Marinade | Marinades & Sauces | Draft | ✓ | — | — | — | — | — | — | ! |
+| Halal-Cart-Style White Sauce | Marinades & Sauces | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Thai Red Curry Coconut Sauce | Marinades & Sauces | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Vodka Farfalle with Fried Mozzarella | Pasta | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Brothy Pinto Beans | Rice & Sides | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Creamy Cajun Corn with Gochujang | Rice & Sides | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Oxtail-Bone Rice | Rice & Sides | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| PAWS DOTS Sweet Potato Mash | Rice & Sides | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Thanksgiving Stuffing | Rice & Sides | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Wok-Glazed Broccoli | Rice & Sides | Public | ✓ | ✓ | — | — | — | — | — | ! |
+| Oxtail-Bone Miso Soup | Soups | Public | ✓ | ✓ | — | — | — | — | — | ! |
 
-## Editorial policy before future publication
+## Source index
 
-- Treat user-confirmed actions and quantities as **Original**, assistant-recommended variations as **Suggested**, reasonable procedural bridges as **Reconstructed**, and estimated nutrition as **Estimated**.
-- Where no measurement is available, leave the historical amount as unknown rather than inventing exact tablespoons or cook times.
-- Keep technical/provenance disputes in private editor notes; public copy should emphasize usable instructions while clearly signaling consequential unresolved cooking quantities.
-- Do not equate a featured ingredient's maker with an exact purchased product SKU unless verified. Brand links belong to official maker sites, not assumed affiliate products.
-- Separate cooking project variants and unfinished experiments from finalized recipes; include connected component recipes and actual usage quantities when documented.
-- The archive's JSON `publication` fields are historical snapshots. Supabase `status` is authoritative for the live website.
-- This was a **targeted accessible-source audit**, not a literal traversal of every original message. Some original conversations and files are only accessible through retrieval excerpts and historical archives, and original missing quantities remain unresolved.
+| Recipe | Original trace | Evidence status |
+|---|---|---|
+| Fried Oxtail Stuffing Cups | September 19, 2026 cooking conversation | Partial cooking experiment and evolving construction |
+| Garlic Shrimp | Prototype v0.8 | Historical recipe |
+| Philly Cheesesteak Egg Rolls | Nov 22 2026 photos | Finished dish photos |
+| Pork & Shrimp Dumplings | Prototype v0.8 | Historical recipe |
+| Brioche Burger Buns | Prototype v0.4 and Sep 2026 bake | Historical recipe |
+| Brioche Sandwich Loaf | Prototype v0.4 | Historical recipe |
+| Buttery Garlic Naan | Prototype v0.4 | Historical recipe |
+| Everyday Sandwich Bread | Prototype v0.8 and bread machine discussions | Historical recipe |
+| Homemade Buttermilk-Style Biscuits | Nov 8 recovery | Prior recipe mentioned |
+| Homemade Italian Bread Loaf | Nov 8 recovery | Prior recipe mentioned |
+| Italian Bread — Bread Machine Adaptation | Nov 8 recovery | Prior recipe mentioned |
+| Pan Sobao | Prototype v0.8 | Historical recipe |
+| Sourdough Milk Brioche Sandwich Bread | Library PDF v1.2 | Source document found |
+| Sourdough Starter | Prototype v0.8 | Historical recipe |
+| Tortillas | Prototype v0.8 | Historical recipe |
+| Biscuits and Sausage Gravy | Prior project audit | Composite dish discussed |
+| Pancakes | Prototype v0.8 | Historical recipe |
+| Smoky Espresso Sausage Gravy | Nov 8 2026 recovery | Prior recipe mentioned |
+| Confit-Garlic Naan Spread | Ghee recipe optional component | Component documented |
+| Herb-Infused Garlic Confit Ghee | Uploaded complete recipe file and prototype | Complete source |
+| Infused Avocado Oil | Nov 8 2026 recovery | Prior recipe mentioned |
+| Peach-Skin Simple Syrup | October 17, 2026 Signature Spiced Peach Cobbler v2.0 conversation | Recovered recipe component |
+| Puerto Rican Sofrito | Nov 1 2026 sofrito | Cooking discussion and videos |
+| Sofrito Strained Liquid — Reserved Mojo Base | November 1, 2026 Puerto Rican Sofrito cooking session | By-product collected, not an actual mojo sauce |
+| Vanilla Extract | Prototype v0.8 | Historical recipe |
+| Chocolate Chunk Cookies — April Chewy Revision (provisional B) | Prototype v0.8 | Historical recipe |
+| Chocolate Chunk Cookies — March Original (provisional A) | Prototype v0.8 | Historical recipe |
+| Deep Caramel Egg-Yolk Flan | Prototype v0.4 | Historical recipe |
+| Signature Spiced Peach Cobbler | Oct 17 2026 v2.0 | Prototype v1.2 reference and cooking discussions |
+| Coquito | Dec 5 2025 conversation | Ingredient list provided |
+| Iced Vanilla Matcha Latte | Prototype v0.4 | Historical recipe |
+| American Chinese Restaurant-Style Fried Chicken Wings | Nov 4 2026 conversation | Research discussion only |
+| Garlic Bread with Reserved Confit Garlic | Nov 1 2026 conversation | Cooking plan only |
+| Japanese/Chinese-Style Clear Soup Investigation | Jul 12 2026 conversation | Tasting discussion only |
+| Beef Shanks | Prototype v0.4 | Historical recipe |
+| Cast-Iron Swordfish | Prototype v0.4 and cooking discussions | Historical recipe |
+| Chicken-Crust Personal Pizzas | Prototype v0.4 | Historical recipe |
+| Creole Salmon with Sweet Potato Mash, Steamed Broccoli, and Cajun Corn | November 14–15, 2026 cooking session, wife scored 7.5/10 | Recovered tested cooking conversation |
+| Curry Chicken | Prototype v0.8 | Historical recipe |
+| Curry-Crusted Sourdough Fried Chicken Sandwich with Butter Chicken Slaw | Oct 19 2026 conversation | Recipe named |
+| Dark-Braised Oxtail | Prototype v0.4 | Historical recipe |
+| Oxtail Steamed Buns | Prototype v0.4 | Historical recipe |
+| Pork Loin Al-Pastor-Style Quesadillas | Prototype v0.4 | Historical recipe |
+| Slow-Roasted Spatchcock Chicken with Potatoes | Oct 2 2026 cooking session | Cooking discussion |
+| Thai Red Curry Crispy Chicken Tacos | October 28–29, 2026 cooking session, user-rated five-star meal | Recovered completed cooking conversation |
+| Tropical Sweet & Sour Pork Tacos | Oct 30 2026 branded PDF discussion | Branded recipe referenced |
+| Whole Fried Red Snapper | Prototype v0.4 | Historical recipe |
+| Carne Asada Marinade | Sep 24 2026 marinade discussion | Cooking discussion |
+| Halal-Cart-Style White Sauce | Prototype v0.4 | Historical recipe |
+| Thai Red Curry Coconut Sauce | October 28–30, 2026 Thai chicken tacos and next-day pork tacos | Component recovered from completed kitchen session |
+| Vodka Farfalle with Fried Mozzarella | Prototype v0.8 | Historical recipe |
+| Brothy Pinto Beans | Prototype v0.4 | Historical recipe |
+| Creamy Cajun Corn with Gochujang | November 14–15, 2026 Creole salmon cooking conversation | Component from tested salmon dinner |
+| Oxtail-Bone Rice | Prototype v0.4 | Historical recipe |
+| PAWS DOTS Sweet Potato Mash | November 14–15, 2026 Creole salmon cooking conversation | Component from tested salmon dinner |
+| Thanksgiving Stuffing | Prototype v0.8 | Historical recipe |
+| Wok-Glazed Broccoli | Nov 8 2026 cooking session | Cooking narration |
+| Oxtail-Bone Miso Soup | Prototype v0.4 | Historical recipe |
+
+## Further review priority
+
+1. Resolve original formula/procedure gaps for Curry Chicken, Carne Asada Marinade, Coquito, Al-Pastor Quesadillas and stand-alone Tortillas before representing these as measured recipes.
+2. For published records where original quantities were improvised, decide whether to retain as explicitly unmeasured working recipes or run a measured test batch and record a new, validated revision.
+3. Review macros and serving yields; most cannot be truthfully derived without measured ingredient weights or standardized portion counts.
+4. Integrate finished meal photos, confirm final product brand names and tighten linked subrecipe usage.
+
+**The full recovery is not equivalent to a complete kitchen-validated cookbook.** The website currently contains authentic source notes, some reconstructed bridging instructions, and clearly labeled gaps.
