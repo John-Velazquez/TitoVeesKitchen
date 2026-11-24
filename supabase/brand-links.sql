@@ -5,7 +5,7 @@ create table if not exists public.brand_links (
   id uuid primary key default gen_random_uuid(),
   name text not null unique check (length(trim(name)) > 0),
   website_url text not null default '' check (
-    website_url = '' or website_url ~* '^https://[^[:space:]]+\\.[^[:space:]]+$'
+    website_url = '' or (website_url like 'https://%' and website_url not like '% %')
   ),
   aliases text[] not null default '{}'::text[],
   enabled boolean not null default true,
