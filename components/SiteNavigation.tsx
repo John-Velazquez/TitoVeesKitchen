@@ -28,7 +28,9 @@ export default function SiteNavigation(){
   }
   void refresh();
   const {data:{subscription}}=db.auth.onAuthStateChange(()=>{void refresh();});
-  return()=>{active=false;sequence++;subscription.unsubscribe();};
+  function onReturn(){if(document.visibilityState==="visible")void refresh();}
+  document.addEventListener("visibilitychange",onReturn);
+  return()=>{active=false;sequence++;subscription.unsubscribe();document.removeEventListener("visibilitychange",onReturn);};
  },[]);
  async function signOut(){
   const db=getSupabase();
