@@ -1,21 +1,22 @@
 "use client";
-import {useEffect,useState} from "react";
+import {useEffect,useMemo,useState} from "react";
 import Link from "next/link";
-import catalog from "../../data/recipe-catalog.json";
 import {getSupabase} from "@/lib/supabase";
 import {type RecipeRecord} from "@/lib/recipe-types";
 import "./recipes.css";
 
-const categoryList=Array.from(new Set(catalog.recipes.map(r=>r.category))).sort();
+const RESEARCH="Ideas & Research";
 export default function Recipes(){
  const [rows,setRows]=useState<RecipeRecord[]>([]);
  const [isAdmin,setIsAdmin]=useState(false);
  const [loading,setLoading]=useState(true);
  const [error,setError]=useState("");
+ const [query,setQuery]=useState("");
+ const [category,setCategory]=useState("All");
  useEffect(()=>{
   let active=true;let request=0;
   const db=getSupabase();
-  if(!db){setLoading(false);return;}
+  if(!db){setLoading(false);setError("Recipe service is not configured.");return;}
   async function refresh(){
    const current=++request;
    setLoading(true);setError("");
@@ -28,53 +29,72 @@ export default function Recipes(){
      if(profileError)throw profileError;
      admin=profile?.role==="admin";
     }
-    let query=db!.from("recipes").select("*").order("title",{ascending:true});
-    if(!admin)query=query.eq("status","published");
-    const {data,error:queryError}=await query;
+    let rq=db!.from("recipes").select("*").order("title",{ascending:true});
+    if(!admin)rq=rq.eq("status","published");
+    const {data,error:queryError}=await rq;
     if(queryError)throw queryError;
     if(active&&current===request){setRows((data??[]) as RecipeRecord[]);setIsAdmin(admin);setLoading(false);}
-   }catch(e){
-    if(active&&current===request){setError(e instanceof Error?e.message:String(e));setLoading(false);}
-   }
+   }catch(e){if(active&&current===request){setError(e instanceof Error?e.message:String(e));setLoading(false);}}
   }
   void refresh();
   const {data:{subscription}}=db.auth.onAuthStateChange(()=>{void refresh();});
   return()=>{active=false;request++;subscription.unsubscribe();};
  },[]);
- const published=rows.filter(r=>r.status==="published");
- const drafts=isAdmin?rows.filter(r=>r.status==="draft"):[];
- const knownSlugs=new Set(rows.map(r=>r.slug));
- const historical=catalog.recipes.filter(r=>r.category!=="Ideas & Research"&&!knownSlugs.has(r.slug));
- const concepts=catalog.recipes.filter(r=>r.category==="Ideas & Research"&&!knownSlugs.has(r.slug));
- const hasGhee=published.some(r=>r.slug==="herb-infused-garlic-confit-ghee");
- function cards(items:RecipeRecord[],ownerPreview:boolean){
-  return <div className="recipe-card-grid">{items.map(r=><article className="recipe-catalog-card" key={r.slug}>
-   {r.photo_url&&<img src={r.photo_url} alt="" style={{width:"100%",height:160,objectFit:"cover",borderRadius:8}}/>}
-   <span className="recipe-chip">{r.category} · {ownerPreview?"Private draft":"Published"}</span>
-   <h2>{r.title}</h2>
-   <p>{r.summary || (ownerPreview?"Recipe in development. Review the ingredients and method before publication.":"")}</p>
-   <Link href={`/recipes/${r.slug}`}>{ownerPreview?"Preview saved recipe":"View full recipe"}</Link>
-   {ownerPreview&&<small className="recipe-card-hint">{r.ingredients.trim()&&r.instructions.trim()?"Ingredients and method available":r.ingredients.trim()?"Ingredients only — method incomplete":"Source notes / incomplete recipe"}</small>}
-  </article>)}</div>;
- }
- return <div className="recipe-site recipe-shell">
- <p className="recipe-crumb"><Link href="/">Home</Link> / Recipe collection</p>
- <p className="recipe-kicker">The Tito Vee's Kitchen collection</p>
- <h1 className="recipe-title">Every recipe has a story.</h1>
- <p className="recipe-subtitle">Explore published recipes and the kitchen journal. When signed in as the owner, you can also preview every saved draft before publishing.</p>
- {loading&&<p role="status" className="recipe-note">Loading saved recipe catalog…</p>}
- {error&&<p role="alert" className="recipe-note">Unable to load live recipes: {error}</p>}
- {isAdmin&&<div className="recipe-draft-banner"><strong>OWNER VIEW — PRIVATE DRAFTS ENABLED</strong><p>You can see and open all {drafts.length} unpublished drafts. Visitors cannot access their contents. Review a draft before publishing.</p><Link href="/admin/recipes">Manage recipes</Link></div>}
- <div className="recipe-divider"/>
- {!hasGhee&&<section className="recipe-feature"><span>Featured • Original fully documented recipe</span><strong>Herb-Infused Garlic Confit Ghee</strong><p>Soft garlic, herb warmth and a fully strained, golden finishing fat.</p><Link className="button" href="/recipes/herb-infused-garlic-confit-ghee" style={{alignSelf:"flex-start"}}>{isAdmin?"Preview database draft":"Read the recipe"}</Link></section>}
- {published.length>0&&<section className="recipe-section"><p className="recipe-kicker">Ready to cook</p><h2>Published recipes</h2>{cards(published,false)}</section>}
- {isAdmin&&drafts.length>0&&<section className="recipe-section"><p className="recipe-kicker">Owner-only collection</p><h2>Saved recipe drafts ({drafts.length})</h2><p className="recipe-subtitle">Open any card to see the database ingredients and method in a full recipe layout, even while it remains unpublished. Draft content is private to admin accounts.</p>{cards(drafts,true)}</section>}
- {historical.length>0&&<><div className="recipe-divider"/><p className="recipe-kicker">Kitchen journal</p><h2 style={{fontSize:"2.1rem",margin:".4rem 0"}}>Recipe archive</h2><p className="recipe-subtitle">{historical.length} recorded recipes and components awaiting publication. These archive cards are references, not verified instructions.</p>
- {categoryList.filter(c=>c!=="Ideas & Research").map(category=>{
- const items=historical.filter(r=>r.category===category);
- return items.length>0&&<section key={category} className="recipe-section"><h2>{category}</h2><div className="recipe-card-grid">{items.map(r=><article key={r.slug} className="recipe-catalog-card"><span className="recipe-chip">Archive · Not published</span><h2>{r.title}</h2><p>{r.status}</p>{r.verified_full_recipe?<Link href={`/recipes/${r.slug}`}>Read documented recipe</Link>:<span className="recipe-card-hint">Full recipe is not available to visitors</span>}</article>)}</div></section>;
- })}
- </>}
- {concepts.length>0&&<section className="recipe-section"><h2>In the Kitchen Lab</h2><p className="recipe-subtitle">Cooking investigations, not published personal recipes.</p><div className="recipe-card-grid">{concepts.map(idea=><article key={idea.slug} className="recipe-catalog-card"><span className="recipe-chip">Research only</span><h2>{idea.title}</h2><p>{idea.status}</p></article>)}</div></section>}
- </div>;
+ const published=rows.filter(r=>r.status==="published"&&r.category!==RESEARCH);
+ const developing=rows.filter(r=>r.status==="draft"&&r.category!==RESEARCH);
+ const research=rows.filter(r=>r.category===RESEARCH);
+ const categories=useMemo(()=>["All",...Array.from(new Set(published.map(r=>r.category))).sort()], [rows]);
+ const filtered=published.filter(r=>(category==="All"||r.category===category) &&
+  (r.title+" "+r.category+" "+r.summary).toLowerCase().includes(query.toLowerCase()));
+ const byCategory=Array.from(new Set(filtered.map(r=>r.category))).sort();
+ return <main className="recipe-site recipe-shell">
+  <p className="recipe-crumb"><Link href="/">Home</Link> / Recipe collection</p>
+  <p className="recipe-kicker">Tito Vee's Kitchen / Recipe collection</p>
+  <h1 className="recipe-title">From my kitchen to yours.</h1>
+  <p className="recipe-subtitle">Original cooking projects, family favorites and tested experiments, documented with ingredients and instructions. Some recipes were recovered from working notes, with missing quantities identified instead of guessed.</p>
+  {loading&&<p role="status" className="recipe-note">Loading recipes…</p>}
+  {error&&<p role="alert" className="recipe-note">Unable to load recipes: {error}</p>}
+  {!loading&&!error&&<p className="recipe-collection-count">{published.length} recipes in the collection</p>}
+  <div className="recipe-search-toolbar">
+   <label className="recipe-search-field">Search recipes<input aria-label="Search recipes" placeholder="Search recipes, ingredients, or categories" value={query} onChange={e=>setQuery(e.target.value)}/></label>
+   <label className="recipe-search-field">Category<select aria-label="Filter recipes by category" value={category} onChange={e=>setCategory(e.target.value)}>{categories.map(c=><option key={c}>{c}</option>)}</select></label>
+  </div>
+  {isAdmin&&<div className="recipe-owner-toolbar"><span>Owner account</span><Link href="/admin/recipes">Edit recipe collection</Link></div>}
+  {!loading&&!error&&filtered.length===0&&<div className="recipe-note">No recipes match your search. Try another category or keyword.</div>}
+  {byCategory.map(group=><section className="recipe-section" key={group}>
+   <h2>{group}</h2>
+   <div className="recipe-card-grid">
+    {filtered.filter(r=>r.category===group).map(r=><article className="recipe-catalog-card" key={r.id}>
+     {r.photo_url&&<img src={r.photo_url} alt="" loading="lazy" style={{width:"100%",height:160,objectFit:"cover",borderRadius:8}}/>}
+     <span className="recipe-chip">{r.category}</span>
+     <h3>{r.title}</h3>
+     <p>{r.summary||"View ingredients and cooking directions."}</p>
+     <Link href={`/recipes/${r.slug}`}>Read recipe</Link>
+    </article>)}
+   </div>
+  </section>)}
+  {isAdmin&&developing.length>0&&<section className="recipe-section">
+   <div className="recipe-divider"/>
+   <p className="recipe-kicker">Owner workspace</p>
+   <h2>Still being documented ({developing.length})</h2>
+   <p className="recipe-subtitle">These aren't full recipes yet. They stay editable privately until the missing original methods or measurements are restored.</p>
+   <div className="recipe-card-grid">
+    {developing.map(r=><article className="recipe-catalog-card" key={r.id}>
+     <span className="recipe-chip">Incomplete · Private</span><h3>{r.title}</h3>
+     <p>{r.summary||"Original recipe source still incomplete."}</p>
+     {r.ingredients.trim()||r.instructions.trim()?<Link href={`/recipes/${r.slug}`}>Review recovered notes</Link>:<span className="recipe-card-hint">No original standalone formula recovered</span>}
+     <Link href="/admin/recipes">Edit record</Link>
+    </article>)}
+   </div>
+  </section>}
+  {isAdmin&&research.length>0&&<section className="recipe-section">
+   <p className="recipe-kicker">Research / Kitchen Lab</p>
+   <h2>Ideas we're still developing</h2>
+   <div className="recipe-card-grid">{research.map(r=><article className="recipe-catalog-card" key={r.id}>
+    <span className="recipe-chip">Research, not a finished recipe</span><h3>{r.title}</h3>
+    <p>{r.summary||"This is an exploration from the kitchen journal; there is no finalized ingredient list or method yet."}</p>
+    <Link href="/admin/recipes">View in Recipe Manager</Link>
+   </article>)}</div>
+  </section>}
+ </main>;
 }
