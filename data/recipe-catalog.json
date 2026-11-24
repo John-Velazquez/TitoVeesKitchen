@@ -639,6 +639,30 @@
       "publication": "published",
       "verified_full_recipe": false,
       "review_required": true
+    },
+    {
+      "slug": "fried-oxtail-stuffing-cups",
+      "title": "Fried Oxtail Stuffing Cups",
+      "category": "Appetizers & Snacks",
+      "evidence": "Partial cooking experiment and evolving construction",
+      "source": "September 19, 2026 cooking conversation",
+      "status": "Draft — oven-baked base test, final filling/frying not confirmed",
+      "notes": "User explored ground beef and breadcrumbs cup form and planned tightly coated pulled oxtail filling. Do not conflate with Thanksgiving stuffing or steamed buns.",
+      "publication": "unpublished",
+      "verified_full_recipe": false,
+      "review_required": true
+    },
+    {
+      "slug": "sofrito-strained-liquid-mojo-base",
+      "title": "Sofrito Strained Liquid — Reserved Mojo Base",
+      "category": "Condiments & Foundations",
+      "evidence": "By-product collected, not an actual mojo sauce",
+      "source": "November 1, 2026 Puerto Rican Sofrito cooking session",
+      "status": "Draft component only",
+      "notes": "Extracted natural liquid, no added water or citrus/vinegar, no completed mojo.",
+      "publication": "unpublished",
+      "verified_full_recipe": false,
+      "review_required": true
     }
   ]
 }
