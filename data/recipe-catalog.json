@@ -663,6 +663,42 @@
       "publication": "unpublished",
       "verified_full_recipe": false,
       "review_required": true
+    },
+    {
+      "slug": "thai-red-curry-coconut-sauce",
+      "title": "Thai Red Curry Coconut Sauce",
+      "category": "Marinades & Sauces",
+      "evidence": "Component recovered from completed kitchen session",
+      "source": "October 28–30, 2026 Thai chicken tacos and next-day pork tacos",
+      "status": "Published — amounts partly informal",
+      "notes": "Cream of coconut, ~3 ordinary spoons Thai red curry paste, <=1/2 cup heavy cream. No extra seasonings during sauce reduction; reused in pork tacos.",
+      "publication": "published",
+      "verified_full_recipe": false,
+      "review_required": true
+    },
+    {
+      "slug": "paws-dots-sweet-potato-mash",
+      "title": "PAWS DOTS Sweet Potato Mash",
+      "category": "Rice & Sides",
+      "evidence": "Component from tested salmon dinner",
+      "source": "November 14–15, 2026 Creole salmon cooking conversation",
+      "status": "Published — original measures improvised",
+      "notes": "PAWS DOTS is a single seasoning product; pumpkin pie spice and brown sugar separately added.",
+      "publication": "published",
+      "verified_full_recipe": false,
+      "review_required": true
+    },
+    {
+      "slug": "creamy-cajun-corn-with-gochujang",
+      "title": "Creamy Cajun Corn with Gochujang",
+      "category": "Rice & Sides",
+      "evidence": "Component from tested salmon dinner",
+      "source": "November 14–15, 2026 Creole salmon cooking conversation",
+      "status": "Published — original measures improvised",
+      "notes": "Canned corn, equal milk/cream soak ~1h, Dot's Natural Spices Cajun, gochujang, pan-reduced. Distinct from October 29 frozen creamy corn.",
+      "publication": "published",
+      "verified_full_recipe": false,
+      "review_required": true
     }
   ]
 }
