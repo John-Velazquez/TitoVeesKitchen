@@ -17,7 +17,7 @@ export function PublishedOverride({slug,fallback=null}:{slug:string;fallback?:Re
  useEffect(()=>{
   let active=true;let request=0;
   const db=getSupabase();
-  if(!db){setLoading(false);return;}
+  if(!db){setLoadError("Recipe service is temporarily unavailable. Please try again later.");setLoading(false);return;}
   async function refresh(){
    const current=++request;
    setLoading(true);setLoadError("");
