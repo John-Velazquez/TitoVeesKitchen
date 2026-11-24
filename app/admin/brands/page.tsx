@@ -6,8 +6,8 @@ import {type BrandLink} from "@/lib/recipe-linking";
 import "../recipes/manager.css";
 
 type Gate="loading"|"admin"|"denied"|"error";
-type Draft={name:string;website_url:string;aliases:string;enabled:boolean;notes:string};
-const fresh:Draft={name:"",website_url:"",aliases:"",enabled:true,notes:""};
+type Draft={name:string;website_url:string;aliases:string;enabled:boolean};
+const fresh:Draft={name:"",website_url:"",aliases:"",enabled:true};
 export default function BrandLinksManager(){
  const [gate,setGate]=useState<Gate>("loading"),[rows,setRows]=useState<BrandLink[]>([]);
  const [id,setId]=useState<string|null>(null),[form,setForm]=useState<Draft>({...fresh});
@@ -33,7 +33,7 @@ export default function BrandLinksManager(){
   return()=>{active=false};
  },[load]);
  function choose(b:BrandLink){
-  setId(b.id);setForm({name:b.name,website_url:b.website_url,aliases:b.aliases.join(", "),enabled:b.enabled,notes:b.notes??""});setMessage("");
+  setId(b.id);setForm({name:b.name,website_url:b.website_url,aliases:b.aliases.join(", "),enabled:b.enabled});setMessage("");
  }
  function clear(){setId(null);setForm({...fresh});setMessage("");}
  async function save(){
@@ -42,7 +42,7 @@ export default function BrandLinksManager(){
   const db=getSupabase();if(!db)return;
   setBusy(true);setMessage("");
   try{
-   const payload={name:form.name.trim(),website_url:form.website_url.trim(),aliases:[...new Set(form.aliases.split(",").map(s=>s.trim()).filter(Boolean))],enabled:form.enabled,notes:form.notes.trim(),updated_at:new Date().toISOString()};
+   const payload={name:form.name.trim(),website_url:form.website_url.trim(),aliases:[...new Set(form.aliases.split(",").map(s=>s.trim()).filter(Boolean))],enabled:form.enabled,updated_at:new Date().toISOString()};
    const result=id?await db.from("brand_links").update(payload).eq("id",id).select("*").single():await db.from("brand_links").insert(payload).select("*").single();
    if(result.error)throw result.error;
    setId(result.data.id);setMessage(payload.website_url?"Saved! Brand mentions on recipe pages will link to this website.":"Saved without a website. Mentions stay plain text until you supply the correct URL.");
@@ -72,7 +72,6 @@ export default function BrandLinksManager(){
      <label className="field">Brand name<input value={form.name} placeholder="e.g. Dot's" onChange={e=>setForm(f=>({...f,name:e.target.value}))}/></label>
      <label className="field">Official brand website (HTTPS)<input type="url" value={form.website_url} placeholder="https://example.com" onChange={e=>setForm(f=>({...f,website_url:e.target.value}))}/></label>
      <label className="field">Other names / spellings (comma-separated)<input value={form.aliases} placeholder="DOTS, Dot’s" onChange={e=>setForm(f=>({...f,aliases:e.target.value}))}/></label>
-     <label className="field">Private notes<textarea rows={3} value={form.notes} onChange={e=>setForm(f=>({...f,notes:e.target.value}))}/></label>
      <label className="field" style={{display:"flex",alignItems:"center",gap:12}}><input style={{width:20}} type="checkbox" checked={form.enabled} onChange={e=>setForm(f=>({...f,enabled:e.target.checked}))}/>Enable this link</label>
     </div>
     <div className="manager-bottom">
